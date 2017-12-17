@@ -10,7 +10,7 @@
     <ul>
       <li v-for="contact in contacts">
         {{contact.name}}: {{contact.phone}}
-        <button type="button" class="btn btn-default" v-on:click="edit(contacts.indexOf(contact))">Обновить!</button>
+        <button type="button" class="btn btn-default" v-on:click="edit(contacts.indexOf(contact), refresh())">Обновить!</button>
         <button type="button" class="btn btn-default" v-on:click="del(contacts.indexOf(contact))">Удалить!</button>
       </li>
     </ul>
@@ -51,6 +51,10 @@ export default {
     }
   },
   methods: {
+    refresh: function() {
+    this.contacts.push({})
+    this.contacts.pop()
+   },
 
     add: function () {
       this.contacts.push({
