@@ -1,8 +1,8 @@
 <template>
 <div id="container">
   <div id="input" class="centerText marginVert">
-    <input v-model="input_name" placeholder="Введите имя">
-    <input v-model="input_phone" placeholder="Введите номер">
+    <input id="input_name" placeholder="Введите имя">
+    <input id="input_phone" placeholder="Введите номер">
     <button type="button" class="btn btn-default" v-on:click="add">Добавить!</button>
   </div>
 
@@ -10,8 +10,8 @@
     <ul>
       <li v-for="contact in contacts">
         {{contact.name}}: {{contact.phone}}
-        <button type="button" class="btn btn-default" v-on:click="edit(contacts.indexOf(contact)), refresh()">Обновить!</button>
-        <button type="button" class="btn btn-default" v-on:click="del(contacts.indexOf(contact), refresh())">Удалить!</button>
+        <button type="button" class="btn btn-default" v-on:click="edit(contacts.indexOf(contact))">Обновить!</button>
+        <button type="button" class="btn btn-default" v-on:click="del(contacts.indexOf(contact))">Удалить!</button>
       </li>
     </ul>
   </div>
@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import _ from 'lodash';
 
 export default {
   name: 'app',
@@ -52,28 +51,23 @@ export default {
     }
   },
   methods: {
-    refresh: function() {
-      this.contacts.push({})
-      this.contacts.pop()
-    },//Рендер обновленных данных, костыль
 
     add: function () {
       this.contacts.push({
-        name: this.input_name,
-        phone: this.input_phone
+        name: document.getElementById('input_name').value,
+        phone: document.getElementById('input_phone').value
       })
     },
 
     edit: function(contact) {
         this.contacts[contact] = {
-          name: this.input_name,
-          phone: this.input_phone
+          name: document.getElementById('input_name').value,
+          phone: document.getElementById('input_phone').value
       }
     },
 
     del: function(contact) {
       this.contacts.splice(contact,1)
-      console.log(contacts);
     }
   }
 }
