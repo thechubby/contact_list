@@ -8,7 +8,11 @@
 
   <div id="app">
     <ul>
-      <li v-for="contact in contacts">{{contact.name}}: {{contact.phone}} <button type="button" class="btn btn-default" v-on:click="edit(contacts.indexOf(contact))">Обновить!</button></li>
+      <li v-for="contact in contacts">
+        {{contact.name}}: {{contact.phone}}
+        <button type="button" class="btn btn-default" v-on:click="edit(contacts.indexOf(contact)), refresh()">Обновить!</button>
+        <button type="button" class="btn btn-default" v-on:click="del(contacts.indexOf(contact), refresh())">Удалить!</button>
+      </li>
     </ul>
   </div>
   <div id='description' class="centerText marginVert">
@@ -48,23 +52,29 @@ export default {
     }
   },
   methods: {
+    refresh: function() {
+      this.contacts.push({})
+      this.contacts.pop()
+    },//Рендер обновленных данных, костыль
+
     add: function () {
       this.contacts.push({
         name: this.input_name,
         phone: this.input_phone
       })
     },
+
     edit: function(contact) {
         this.contacts[contact] = {
           name: this.input_name,
           phone: this.input_phone
-      } //Создаем и сразу же удаляем последний эл-т массива для повторного рендеринга v-for
-        this.contacts.push({})
-        this.contacts.pop()
+      }
+    },
+
+    del: function(contact) {
+      this.contacts.splice(contact,1)
+      console.log(contacts);
     }
-  },
-  watch: {
-    
   }
 }
 </script>
