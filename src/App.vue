@@ -74,9 +74,11 @@ export default {
 
 <style>
 #container {
+  font-family: 'Spectral SC', serif;
   border: 1px solid black;
-  width: 500px;
   margin: auto;
+  width: 500px;
+  font-family: 'Lobster', cursive;  
 }
 #description{
   line-height: 22px;
@@ -97,5 +99,29 @@ ol {
 }
 li {
   line-height: 40px;
+}
+/*Ширины для десктопов*/
+@media screen and (device-width: 1920px) {
+  #container {width: 1440px;}
+}
+@media screen and (device-width: 1440px) {
+  #container {width: 960px;
+  }
+@media screen and (device-width: 1280px) {
+  #container {width: 768px;}
+}
+@media screen and (device-width: 1024px) {
+  #container {width: 600px;}
+}
+@media screen and (device-width: 800px) {
+  #container {width: 500px;}
+}
+/*Для мобильных*/
+@media screen and (max-width: 480px) {
+    #container {
+      width: 480px;
+    }
+    font-size: 10px;
+  }
 }
 </style>
