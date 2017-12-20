@@ -1,22 +1,28 @@
 <template>
 <div id="container">
   <div id="input" class="centerText marginVert">
-    <input id="input_name" placeholder="Введите имя">
-    <input id="input_phone" placeholder="Введите номер">
-    <button type="button" class="btn btn-default" v-on:click="add">Добавить!</button>
+      <input id="input_name" placeholder="ФИО">
+      <input id="input_phone" placeholder="Контактные данные">
+    <button type="button" class="btn btn-default" v-on:click="add()">Добавить</button>
   </div>
 
-  <div id="app">
-    <ul>
-      <li v-for="contact in contacts">
-        {{contact.name}}: {{contact.phone}}
-        <button type="button" class="btn btn-default" v-on:click="edit(contacts.indexOf(contact), refresh())">Обновить!</button>
-        <button type="button" class="btn btn-default" v-on:click="del(contacts.indexOf(contact))">Удалить!</button>
-      </li>
-    </ul>
+<div id="app">
+  <ol>
+    <li v-for="contact in contacts">
+      {{contact.name}}: {{contact.phone}}
+      <button type="button" class="btn btn-default" v-on:click="edit(contacts.indexOf(contact), refresh())">Обновить</button>
+      <button type="button" class="btn btn-default" v-on:click="del(contacts.indexOf(contact))">Удалить</button>
+    </li>
+    </ol>
+    <div class="centerText marginVert">
+      <button type="button" class="btn btn-default" v-on:click="store()">Сохранить книгу</button>
   </div>
+</div>
+
   <div id='description' class="centerText marginVert">
-    <p>Для добавления записи введите данные и нажмите "Добавить!"<br>Для редактирования записи введите данные и нажмите "Обновить!"</p>
+    <p>Для добавления записи введите данные и нажмите "Добавить"<br>
+    Для редактирования записи введите данные и нажмите "Обновить"<br>
+    Для сохранения изменений в книге нажмите "Сохранить книгу"</p>
   </div>
 </div>
 
@@ -30,31 +36,20 @@ export default {
   },
   data () {
     return {
-      contacts: [
-        {  
-          name: 'Иванов Иван',
-          phone: '+7 999 888 77 66'
-        },
-        {
-          name: 'Гуси Лебеди',
-          phone: '+7 123 456 78 90'
-        },
-        {
-          name: 'Петров Петр',
-          phone: '+7 987 654 32 10'
-        },
-        {
-          name: 'Васильев Василий',
-          phone: '+7 999 888 77 66'
-        }
-      ]
+      contacts: JSON.parse(localStorage.getItem('key')) //выгружаем из локального хранилища последний сейв, если он был
     }
   },
   methods: {
+
+    store: function() {
+      let conts = JSON.stringify(this.contacts);
+      localStorage.setItem('key', conts);
+    }, //сохраняем в локальное хранилище текущее состояние книги
+
     refresh: function() {
-    this.contacts.push({})
-    this.contacts.pop()
-   },
+      this.contacts.push({})
+      this.contacts.pop()
+    }, //костыль для повторного рендера v-for т.к. v-for не реагирует на изменение эл-в массива, а только на изменение кол-ва эл-в
 
     add: function () {
       this.contacts.push({
@@ -83,16 +78,24 @@ export default {
   width: 500px;
   margin: auto;
 }
+#description{
+  line-height: 22px;
+}
+
 .centerText {
   text-align: center;
 }
 .marginVert {
   margin: 15px 0px;
 }
-ul {
+
+ol {
   border-bottom: 1px solid black;
   border-top: 1px solid black;
   padding-top: 15px;
   padding-bottom: 15px;
+}
+li {
+  line-height: 40px;
 }
 </style>
